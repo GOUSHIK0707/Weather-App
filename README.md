@@ -9,7 +9,6 @@ It allows users to search for any city and view **real-time weather details** su
 ## 🚀 Features  
 - 🌎 Search weather by **city name**  
 - 🌡 Shows **temperature, condition, wind, humidity, sunrise, and sunset**  
-- 🌧 **Rainy background theme** with **glassmorphism design**  
 - ⚡ Real-time data from **Visual Crossing Weather API**  
 - 📱 Fully responsive and works on desktop & mobile  
 
