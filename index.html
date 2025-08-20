@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ezAkSnMX7xpDdZklWm0YyP1y9QzB4pOiCMRNEQOgtNqa5RomBU6Sr64&s') no-repeat center center/cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      border-radius: 20px;
+      width: 380px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ffeb3b;
+    }
+
+    .search-box {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px 0 0 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .search-box button {
+      background: #ff9800;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+      color: white;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .search-box button:hover {
+      background: #e68900;
+      transform: scale(1.05);
+    }
+
+    .weather-info h2 {
+      margin: 10px 0;
+      font-size: 22px;
+      color: #ffeb3b;
+    }
+
+    .weather-info p {
+      margin: 6px 0;
+      font-size: 16px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌧 Weather App</h1>
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city name">
+      <button onclick="getWeather()">Search</button>
+    </div>
+    <div class="weather-info" id="weatherInfo">
+      <p>Enter a city to get weather data.</p>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = "GDJ6NAHG2D8FBJPRY2JW435LG";
+
+    // Fetch Weather
+    async function getWeather() {
+      const city = document.getElementById("cityInput").value || "Siliguri, WB, IN";
+      const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=${apiKey}&contentType=json`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("City not found");
+        const data = await response.json();
+        const current = data.currentConditions;
+
+        document.getElementById("weatherInfo").innerHTML = `
+          <h2>${data.resolvedAddress}</h2>
+          <p><b>🌡 Temp:</b> ${current.temp}°C</p>
+          <p><b>🌥 Condition:</b> ${current.conditions}</p>
+          <p><b>💨 Wind:</b> ${current.windspeed} km/h</p>
+          <p><b>💧 Humidity:</b> ${current.humidity}%</p>
+          <p><b>🌅 Sunrise:</b> ${current.sunrise}</p>
+          <p><b>🌇 Sunset:</b> ${current.sunset}</p>
+        `;
+      } catch (error) {
+        document.getElementById("weatherInfo").innerHTML = `<p style="color:red;">${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
